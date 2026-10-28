@@ -1,9 +1,6 @@
-const API_BASE_URL = 'https://star-tech-africa.rashidjumachepkwony.workers.dev';
-
-// ============ LOAD APPS FROM SERVER ============
 async function loadApps() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/apps`);
+        const response = await fetch('/api/apps');
 
         if (!response.ok) {
             throw new Error(`Apps API returned HTTP ${response.status}.`);
@@ -70,7 +67,7 @@ async function buyApp(appId, appName, price) {
         }
 
         // Initialize payment with server
-        const response = await fetch(`${API_BASE_URL}/api/initialize-payment`, {
+        const response = await fetch('/api/initialize-payment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

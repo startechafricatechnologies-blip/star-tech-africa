@@ -3,4 +3,12 @@ main = "src/index.js"
 compatibility_date = "2024-10-01"
 
 [vars]
-APP_URL = "https://star-tech-africa.rashidjumachepkwony.workers.dev"
+APP_URL = "https://startechafrica.co.ke"
+
+[[routes]]
+pattern = "startechafrica.co.ke/api/*"
+zone_id = "c5485440b764879dbb93e8c6ac36b726"
+
+[[routes]]
+pattern = "www.startechafrica.co.ke/api/*"
+zone_id = "c5485440b764879dbb93e8c6ac36b726"
