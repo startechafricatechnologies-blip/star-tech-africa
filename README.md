@@ -36,15 +36,17 @@ The app catalog is hardcoded in `server/server.js`, not stored in a database, an
 
 1. Create a Cloudflare Pages project for the `public/` directory.
 2. Create a Cloudflare Worker and deploy the code in `worker/`.
+   - `worker/wrangler.toml` routes `startechafrica.co.ke/api/*` to the Worker. The domain must be active in the same Cloudflare account as the Worker.
+   - Redeploy the Worker after changing its routes so Cloudflare installs the `/api/*` route.
 3. Add the following secrets in the Worker environment:
    - `PAYSTACK_SECRET_KEY`
    - `SUPABASE_URL`
    - `SUPABASE_SERVICE_ROLE_KEY`
    - `SUPABASE_ANON_KEY`
-4. Set `APP_URL` to your Cloudflare Pages site URL or the Worker URL.
+4. Set `APP_URL` to `https://startechafrica.co.ke` (or your production storefront domain).
 5. Run the SQL in `supabase/schema.sql` against your Supabase PostgreSQL instance.
 6. Upload the APK files to the matching Supabase Storage bucket and keep the bucket path aligned with `storage_path` in the `apps` table.
-7. Update the frontend to use the Pages + Worker origin as the host when needed.
+7. Keep frontend API requests same-origin (`/api/...`) so the custom-domain Worker route handles them.
 
 ## Local development
 

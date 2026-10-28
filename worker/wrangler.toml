@@ -3,4 +3,4 @@ main = "src/index.js"
 compatibility_date = "2024-10-01"
 
 [vars]
-APP_URL = "https://startechafrica.co.ke"
+APP_URL = "https://star-tech-africa.rashidjumachepkwony.workers.dev"

@@ -1,13 +1,33 @@
+const API_BASE_URL = 'https://star-tech-africa.rashidjumachepkwony.workers.dev';
+
 // ============ LOAD APPS FROM SERVER ============
 async function loadApps() {
     try {
-        const response = await fetch('/api/apps');
+        const response = await fetch(`${API_BASE_URL}/api/apps`);
+
+        if (!response.ok) {
+            throw new Error(`Apps API returned HTTP ${response.status}.`);
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.toLowerCase().includes('application/json')) {
+            throw new Error('The /api/apps route is not connected to the Cloudflare Worker.');
+        }
+
         const apps = await response.json();
+
+        if (!Array.isArray(apps)) {
+            throw new Error('The apps API returned an invalid response.');
+        }
+
         displayApps(apps);
     } catch (error) {
         console.error('Error loading apps:', error);
+        const message = error instanceof Error && error.message.includes('not connected to the Cloudflare Worker')
+            ? '❌ The apps service is not connected. The site administrator needs to route /api/* to the Cloudflare Worker.'
+            : '❌ Failed to load apps. Please try again later or contact support.';
         document.getElementById('appsContainer').innerHTML = 
-            '<p style="text-align:center;color:#e74c3c;padding:40px;">❌ Failed to load apps. Please refresh.</p>';
+            `<p style="text-align:center;color:#e74c3c;padding:40px;">${message}</p>`;
     }
 }
 
@@ -50,7 +70,7 @@ async function buyApp(appId, appName, price) {
         }
 
         // Initialize payment with server
-        const response = await fetch('/api/initialize-payment', {
+        const response = await fetch(`${API_BASE_URL}/api/initialize-payment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
